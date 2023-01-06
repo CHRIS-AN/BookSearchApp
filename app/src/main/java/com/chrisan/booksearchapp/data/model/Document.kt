@@ -6,28 +6,28 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Document(
-    @Json(name = "authors")
+    @field:Json(name = "authors")
     val authors: List<String>,
-    @Json(name = "contents")
+    @field:Json(name = "contents")
     val contents: String,
-    @Json(name = "datetime")
+    @field:Json(name = "datetime")
     val datetime: String,
-    @Json(name = "isbn")
+    @field:Json(name = "isbn")
     val isbn: String,
-    @Json(name = "price")
+    @field:Json(name = "price")
     val price: Int,
-    @Json(name = "publisher")
+    @field:Json(name = "publisher")
     val publisher: String,
-    @Json(name = "sale_price")
+    @field:Json(name = "sale_price")
     val salePrice: Int,
-    @Json(name = "status")
+    @field:Json(name = "status")
     val status: String,
-    @Json(name = "thumbnail")
+    @field:Json(name = "thumbnail")
     val thumbnail: String,
-    @Json(name = "title")
+    @field:Json(name = "title")
     val title: String,
-    @Json(name = "translators")
+    @field:Json(name = "translators")
     val translators: List<String>,
-    @Json(name = "url")
+    @field:Json(name = "url")
     val url: String
 )

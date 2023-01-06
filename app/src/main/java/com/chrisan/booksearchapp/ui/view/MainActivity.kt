@@ -1,11 +1,9 @@
-package com.chrisan.booksearchapp
+package com.chrisan.booksearchapp.ui.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.chrisan.booksearchapp.R
 import com.chrisan.booksearchapp.databinding.ActivityMainBinding
-import com.chrisan.booksearchapp.ui.view.FavoriteFragment
-import com.chrisan.booksearchapp.ui.view.SearchFragment
-import com.chrisan.booksearchapp.ui.view.SettingsFragment
 
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {

@@ -68,6 +68,10 @@ class SearchFragment : Fragment() {
         var startItem = System.currentTimeMillis()
         var endTime: Long
 
+        // 초기에 쿼리 불러옴.
+        binding.etSearch.text =
+            Editable.Factory.getInstance().newEditable(bookSearchViewModel.query)
+
         binding.etSearch.addTextChangedListener { text: Editable? ->
             endTime = System.currentTimeMillis()
             if (endTime - startItem >= SEARCH_BOOKS_TIME_DELAY) {
@@ -75,6 +79,7 @@ class SearchFragment : Fragment() {
                     val query = it.toString().trim()
                     if (query.isNotEmpty()) {
                         bookSearchViewModel.searchBooks(query)
+                        bookSearchViewModel.query = query // savedState 쿼리 저장
                     }
                 }
             }

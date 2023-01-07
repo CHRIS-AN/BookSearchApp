@@ -70,4 +70,7 @@ dependencies {
 
     // Coil
     implementation 'io.coil-kt:coil:2.0.0-rc03'
+
+    // Recyclerview
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 }

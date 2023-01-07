@@ -20,4 +20,9 @@
         android:name="com.chrisan.booksearchapp.ui.view.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/fragment_book"
+        android:name="com.chrisan.booksearchapp.ui.view.BookFragment"
+        android:label="@string/book_info"
+        tools:layout="@layout/fragment_book" />
 </navigation>

@@ -8,4 +8,5 @@
     <string name="author">AUTHOR</string>
     <string name="datetime">DATETIME</string>
     <string name="bookImage">책 사진</string>
+    <string name="bookSearchInput">Search..</string>
 </resources>

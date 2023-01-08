@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.chrisan.booksearchapp.data.model.Book
 
 @Database(
@@ -11,6 +12,7 @@ import com.chrisan.booksearchapp.data.model.Book
     version = 1,
     exportSchema = false
 )
+@TypeConverters(OrmConverter::class)
 abstract class BookSearchDatabase : RoomDatabase() {
 
     abstract fun bookSearchDao(): BookSearchDao

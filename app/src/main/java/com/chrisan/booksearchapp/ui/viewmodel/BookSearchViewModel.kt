@@ -5,6 +5,7 @@ import com.chrisan.booksearchapp.data.model.Book
 import com.chrisan.booksearchapp.data.model.SearchResponse
 import com.chrisan.booksearchapp.data.repository.BookSearchRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class BookSearchViewModel(
@@ -33,8 +34,8 @@ class BookSearchViewModel(
     fun deleteBook(book: Book) = viewModelScope.launch(Dispatchers.IO) {
         bookSearchRepository.deleteBooks(book)
     }
-    
-    val favoriteBooks: LiveData<List<Book>> = bookSearchRepository.getFavoriteBooks()
+
+    val favoriteBooks: Flow<List<Book>> = bookSearchRepository.getFavoriteBooks()
 
     // SavedState (쿼리 보존에 사용할 변수)
     var query = String()

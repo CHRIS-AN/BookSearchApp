@@ -1,8 +1,8 @@
 package com.chrisan.booksearchapp.data.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.chrisan.booksearchapp.data.model.Book
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BookSearchDao {
@@ -15,5 +15,5 @@ interface BookSearchDao {
 
     // @Query 애노테이션은 시간이 덜 걸리기 때문에 코루틴 내에 비동기로 동작할 필요가 없다.
     @Query("SELECT * FROM books")
-    fun getFavoriteBooks(): LiveData<List<Book>>
+    fun getFavoriteBooks(): Flow<List<Book>>
 }

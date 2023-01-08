@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.chrisan.booksearchapp.databinding.FragmentFavoriteBinding
 import com.chrisan.booksearchapp.ui.adapter.BookSearchAdapter
 import com.chrisan.booksearchapp.ui.viewmodel.BookSearchViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class FavoriteFragment : Fragment() {
     private var _binding: FragmentFavoriteBinding? = null
@@ -33,6 +36,7 @@ class FavoriteFragment : Fragment() {
         bookSearchViewModel = (activity as MainActivity).bookSearchViewModel
 
         setupRecyclerView()
+        setupTouchHelper(view)
         initObserve()
     }
 
@@ -58,8 +62,38 @@ class FavoriteFragment : Fragment() {
         }
 
         bookSearchAdapter.setOnItemClickListener {
-            val action = SearchFragmentDirections.actionFragmentSearchToFragmentBook(it)
+            val action = FavoriteFragmentDirections.actionFragmentFavoriteToFragmentBook(it)
             findNavController().navigate(action)
+        }
+    }
+
+    private fun setupTouchHelper(view: View) {
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.bindingAdapterPosition
+                val book = bookSearchAdapter.currentList[position]
+                bookSearchViewModel.deleteBook(book)
+
+                Snackbar.make(view, "해당 책 정보를 삭제하였습니다.", Snackbar.LENGTH_SHORT).apply {
+                    setAction("되돌리기") {
+                        bookSearchViewModel.saveBook(book)
+                    }
+                }.show()
+            }
+        }
+
+        ItemTouchHelper(itemTouchHelperCallback).apply {
+            attachToRecyclerView(binding.rvFavoriteBooks) // 스와이프 동작을 recycler view 에 연결
         }
     }
 

@@ -5,7 +5,9 @@ import com.chrisan.booksearchapp.data.model.Book
 import com.chrisan.booksearchapp.data.model.SearchResponse
 import com.chrisan.booksearchapp.data.repository.BookSearchRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class BookSearchViewModel(
@@ -35,7 +37,9 @@ class BookSearchViewModel(
         bookSearchRepository.deleteBooks(book)
     }
 
-    val favoriteBooks: Flow<List<Book>> = bookSearchRepository.getFavoriteBooks()
+    // flow 동작을 Favorite book 라이프 사이클과 동기화시키기
+    val favoriteBooks: StateFlow<List<Book>> = bookSearchRepository.getFavoriteBooks()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), listOf())
 
     // SavedState (쿼리 보존에 사용할 변수)
     var query = String()

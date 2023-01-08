@@ -33,6 +33,13 @@ class FavoriteFragment : Fragment() {
         bookSearchViewModel = (activity as MainActivity).bookSearchViewModel
 
         setupRecyclerView()
+        initObserve()
+    }
+
+    private fun initObserve() {
+        bookSearchViewModel.favoriteBooks.observe(viewLifecycleOwner) {
+            bookSearchAdapter.submitList(it)
+        }
     }
 
     private fun setupRecyclerView() {

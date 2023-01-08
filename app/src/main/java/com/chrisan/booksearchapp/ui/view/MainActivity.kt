@@ -10,6 +10,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.chrisan.booksearchapp.R
+import com.chrisan.booksearchapp.data.db.BookSearchDatabase
 import com.chrisan.booksearchapp.data.repository.BookSearchRepositoryImpl
 import com.chrisan.booksearchapp.databinding.ActivityMainBinding
 import com.chrisan.booksearchapp.ui.viewmodel.BookSearchViewModel
@@ -34,7 +35,8 @@ class MainActivity : AppCompatActivity() {
             binding.bottomNavigationView.selectedItemId = R.id.fragment_search
         }
 
-        val bookSearchRepository = BookSearchRepositoryImpl()
+        val database = BookSearchDatabase.getInstance(this)
+        val bookSearchRepository = BookSearchRepositoryImpl(database)
         val factory = BookSearchViewModelProviderFactory(bookSearchRepository, this)
         bookSearchViewModel = ViewModelProvider(this, factory)[BookSearchViewModel::class.java]
     }

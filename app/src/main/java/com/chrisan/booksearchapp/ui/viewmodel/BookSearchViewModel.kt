@@ -60,7 +60,7 @@ class BookSearchViewModel(
         bookSearchRepository.saveSortMode(value)
     }
 
-    private suspend fun getSortMode() = withContext(Dispatchers.IO) {
+    suspend fun getSortMode() = withContext(Dispatchers.IO) {
         bookSearchRepository.getSortMode().first()
     }
 

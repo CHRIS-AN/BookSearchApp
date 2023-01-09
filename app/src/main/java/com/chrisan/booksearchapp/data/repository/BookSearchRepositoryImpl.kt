@@ -1,10 +1,7 @@
 package com.chrisan.booksearchapp.data.repository
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -12,6 +9,7 @@ import com.chrisan.booksearchapp.data.api.RetrofitInstance.api
 import com.chrisan.booksearchapp.data.db.BookSearchDatabase
 import com.chrisan.booksearchapp.data.model.Book
 import com.chrisan.booksearchapp.data.model.SearchResponse
+import com.chrisan.booksearchapp.data.repository.BookSearchRepositoryImpl.PreferencesKeys.CACHE_DELETE_MODE
 import com.chrisan.booksearchapp.data.repository.BookSearchRepositoryImpl.PreferencesKeys.SORT_MODE
 import com.chrisan.booksearchapp.util.Constants.PAGING_SIZE
 import com.chrisan.booksearchapp.util.Sort
@@ -48,6 +46,7 @@ class BookSearchRepositoryImpl(
 
     private object PreferencesKeys {
         val SORT_MODE = stringPreferencesKey("sort_mode")
+        val CACHE_DELETE_MODE = booleanPreferencesKey("cache_delete_mode")
     }
 
     override suspend fun saveSortMode(mode: String) {
@@ -69,6 +68,27 @@ class BookSearchRepositoryImpl(
             }
             .map { prefs ->
                 prefs[SORT_MODE] ?: Sort.ACCURACY.value // nulL 일경우에 기본 accuracy 이다.
+            }
+    }
+
+    override suspend fun saveCacheDeleteMode(mode: Boolean) {
+        dataStore.edit { prefs ->
+            prefs[CACHE_DELETE_MODE] = mode
+        }
+    }
+
+    override suspend fun getCacheDeleteMode(): Flow<Boolean> {
+        return dataStore.data
+            .catch { exception ->
+                if (exception is IOException) {
+                    exception.printStackTrace()
+                    emit(emptyPreferences())
+                } else {
+                    throw exception
+                }
+            }
+            .map { prefs ->
+                prefs[CACHE_DELETE_MODE] ?: false
             }
     }
 

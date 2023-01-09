@@ -1,6 +1,8 @@
 package com.chrisan.booksearchapp.ui.viewmodel
 
 import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.chrisan.booksearchapp.data.model.Book
 import com.chrisan.booksearchapp.data.model.SearchResponse
 import com.chrisan.booksearchapp.data.repository.BookSearchRepository
@@ -64,6 +66,11 @@ class BookSearchViewModel(
         bookSearchRepository.getSortMode().first()
     }
 
+    // Paging
+    val favoritePagingBooks: StateFlow<PagingData<Book>> =
+        bookSearchRepository.getFavoritePagingBooks()
+            .cachedIn(viewModelScope)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), PagingData.empty())
 
     companion object {
         const val SAVE_STATE_KEY = "query" // savedState KEY

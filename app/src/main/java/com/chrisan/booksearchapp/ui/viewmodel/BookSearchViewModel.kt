@@ -7,8 +7,10 @@ import com.chrisan.booksearchapp.data.repository.BookSearchRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class BookSearchViewModel(
     private val bookSearchRepository: BookSearchRepository,
@@ -20,7 +22,7 @@ class BookSearchViewModel(
     val searchResult: LiveData<SearchResponse> get() = _searchResult
 
     fun searchBooks(query: String) = viewModelScope.launch(Dispatchers.IO) {
-        val response = bookSearchRepository.searchBooks(query, "accuracy", 1, 15)
+        val response = bookSearchRepository.searchBooks(query, getSortMode(), 1, 15)
         if (response.isSuccessful) {
             response.body()?.let { body ->
                 _searchResult.postValue(body)
@@ -51,6 +53,15 @@ class BookSearchViewModel(
     init {
         // 초기화 할 때, 일단 savedState 에서 값을 가져오기.
         query = savedStateHandle.get<String>(SAVE_STATE_KEY) ?: ""
+    }
+
+    // DataStore
+    fun saveSortMode(value: String) = viewModelScope.launch {
+        bookSearchRepository.saveSortMode(value)
+    }
+
+    private suspend fun getSortMode() = withContext(Dispatchers.IO) {
+        bookSearchRepository.getSortMode().first()
     }
 
 

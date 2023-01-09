@@ -14,6 +14,7 @@ import com.chrisan.booksearchapp.databinding.FragmentSearchBinding
 import com.chrisan.booksearchapp.ui.adapter.BookSearchPagingAdapter
 import com.chrisan.booksearchapp.ui.viewmodel.BookSearchViewModel
 import com.chrisan.booksearchapp.util.Constants.SEARCH_BOOKS_TIME_DELAY
+import com.chrisan.booksearchapp.util.collectLatestStateFlow
 
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
@@ -45,9 +46,13 @@ class SearchFragment : Fragment() {
     }
 
     private fun initObserve() {
-        bookSearchViewModel.searchResult.observe(viewLifecycleOwner) { response ->
-            val books = response.documents
-            bookSearchAdapter.submitList(books) // ref. ListAdapter.java, AsyncListDiffer.java
+//        bookSearchViewModel.searchResult.observe(viewLifecycleOwner) { response ->
+//            val books = response.documents
+//            bookSearchAdapter.submitList(books) // ref. ListAdapter.java, AsyncListDiffer.java
+//        }
+
+        collectLatestStateFlow(bookSearchViewModel.searchPagingResult) {
+            bookSearchAdapter.submitData(it)
         }
     }
 

@@ -1,5 +1,6 @@
 package com.chrisan.booksearchapp.data.db
 
+import androidx.paging.PagingSource
 import androidx.room.*
 import com.chrisan.booksearchapp.data.model.Book
 import kotlinx.coroutines.flow.Flow
@@ -16,4 +17,8 @@ interface BookSearchDao {
     // @Query 애노테이션은 시간이 덜 걸리기 때문에 코루틴 내에 비동기로 동작할 필요가 없다.
     @Query("SELECT * FROM books")
     fun getFavoriteBooks(): Flow<List<Book>>
+
+    // Room 은 반환 값으로 PagingSource 를 반환 받을 수 있다.
+    @Query("SELECT * FROM books")
+    fun getFavoritePagingBooks(): PagingSource<Int, Book>
 }

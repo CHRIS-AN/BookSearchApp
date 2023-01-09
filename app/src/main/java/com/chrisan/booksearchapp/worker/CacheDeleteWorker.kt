@@ -14,6 +14,7 @@ class CacheDeleteWorker(
             Log.d("WorkManager", "Cache has successfully deleted")
             Result.success()
         } catch (exception: Exception) {
+            Log.d("WorkManager", "Failed")
             exception.printStackTrace()
             Result.failure()
         }

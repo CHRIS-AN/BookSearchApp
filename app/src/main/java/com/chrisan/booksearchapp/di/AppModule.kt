@@ -78,4 +78,9 @@ object AppModule {
     @Provides
     fun provideWorkManager(@ApplicationContext context: Context): WorkManager =
         WorkManager.getInstance(context)
+
+    // Worker 주입은 Singleton 컴포넌트 내에서 싱글톤으로 해야한다.
+    @Singleton
+    @Provides
+    fun provideCacheDeleteResult(): String = "Cache has deleted by Hilt"
 }

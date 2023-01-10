@@ -1,25 +1,19 @@
 package com.chrisan.booksearchapp.ui.view
 
-import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.work.WorkManager
 import com.chrisan.booksearchapp.R
-import com.chrisan.booksearchapp.data.db.BookSearchDatabase
-import com.chrisan.booksearchapp.data.repository.BookSearchRepositoryImpl
 import com.chrisan.booksearchapp.databinding.ActivityMainBinding
 import com.chrisan.booksearchapp.ui.viewmodel.BookSearchViewModel
-import com.chrisan.booksearchapp.ui.viewmodel.BookSearchViewModelProviderFactory
-import com.chrisan.booksearchapp.util.Constants.DATASTORE_NAME
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
@@ -29,8 +23,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     // 데이터스토어 싱글톤 객체 생성
-    private val Context.dataStore by preferencesDataStore(DATASTORE_NAME)
-    private val workManager = WorkManager.getInstance(application)
+//    private val Context.dataStore by preferencesDataStore(DATASTORE_NAME)
+//    private val workManager = WorkManager.getInstance(application)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,14 +33,14 @@ class MainActivity : AppCompatActivity() {
         setupJetpackNavigation()
 
         // App 이 처음 실행할 때만, search Fragment 화면 고정
-        if (savedInstanceState == null) {
-            binding.bottomNavigationView.selectedItemId = R.id.fragment_search
-        }
+//        if (savedInstanceState == null) {
+//            binding.bottomNavigationView.selectedItemId = R.id.fragment_search
+//        }
 
-        val database = BookSearchDatabase.getInstance(this)
-        val bookSearchRepository = BookSearchRepositoryImpl(database, dataStore)
-        val factory = BookSearchViewModelProviderFactory(bookSearchRepository, workManager, this)
-        bookSearchViewModel = ViewModelProvider(this, factory)[BookSearchViewModel::class.java]
+//        val database = BookSearchDatabase.getInstance(this)
+//        val bookSearchRepository = BookSearchRepositoryImpl(database, dataStore)
+//        val factory = BookSearchViewModelProviderFactory(bookSearchRepository, workManager, this)
+//        bookSearchViewModel = ViewModelProvider(this, factory)[BookSearchViewModel::class.java]
     }
 
     private fun setupJetpackNavigation() {

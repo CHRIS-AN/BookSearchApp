@@ -10,7 +10,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.chrisan.booksearchapp.R
 import com.chrisan.booksearchapp.databinding.ActivityMainBinding
-import com.chrisan.booksearchapp.ui.viewmodel.BookSearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,7 +17,8 @@ class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
-    lateinit var bookSearchViewModel: BookSearchViewModel
+
+    //lateinit var bookSearchViewModel: BookSearchViewModel
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 

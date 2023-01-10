@@ -1,10 +1,14 @@
 package com.chrisan.booksearchapp.di
 
+import android.content.Context
+import androidx.room.Room
 import com.chrisan.booksearchapp.data.api.BookSearchApi
+import com.chrisan.booksearchapp.data.db.BookSearchDatabase
 import com.chrisan.booksearchapp.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -43,4 +47,14 @@ object AppModule {
     fun provideApiService(retrofit: Retrofit): BookSearchApi {
         return retrofit.create(BookSearchApi::class.java)
     }
+
+    // Room
+    @Singleton
+    @Provides
+    fun provideBookSearchDatabase(@ApplicationContext context: Context): BookSearchDatabase =
+        Room.databaseBuilder(
+            context.applicationContext,
+            BookSearchDatabase::class.java,
+            "favorite-books"
+        ).build()
 }

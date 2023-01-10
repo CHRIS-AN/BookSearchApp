@@ -111,7 +111,7 @@ class FavoriteFragment : Fragment() {
                         setAction("되돌리기") {
                             bookSearchViewModel.saveBook(book)
                         }
-                    }
+                    }.show()
                 }
             }
         }

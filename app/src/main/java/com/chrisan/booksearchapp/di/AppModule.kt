@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
+import androidx.work.WorkManager
 import com.chrisan.booksearchapp.data.api.BookSearchApi
 import com.chrisan.booksearchapp.data.db.BookSearchDatabase
 import com.chrisan.booksearchapp.util.Constants
@@ -67,9 +68,14 @@ object AppModule {
     @Singleton
     @Provides
     fun providePreferencesDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
-
         // 싱글톤 객체 생성
         PreferenceDataStoreFactory.create(
             produceFile = { context.preferencesDataStoreFile(DATASTORE_NAME) }
         )
+
+    // WorkManager
+    @Singleton
+    @Provides
+    fun provideWorkManager(@ApplicationContext context: Context): WorkManager =
+        WorkManager.getInstance(context)
 }
